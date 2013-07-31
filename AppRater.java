@@ -35,6 +35,7 @@ public class AppRater {
     private int mResource_rateNow;
     private int mResource_remindLater;
     private int mResource_dontShow;
+    private Intent mIntentGooglePlay;
 
     /** Retrieve a singleton instance of this class on which you can call show() later */
     public static AppRater getInstance() {
@@ -99,6 +100,11 @@ public class AppRater {
     	mResource_rateNow = resRateNow;
     	mResource_remindLater = resRemindLater;
     	mResource_dontShow = resDontShow;
+    	
+	mIntentGooglePlay = new Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_PLAY_BASE_URI+packageName)); // intent to launch app's details page on Google Play
+	if (context.getPackageManager().queryIntentActivities(mIntentGooglePlay, 0).size() <= 0) { // no app available to handle the intent
+		return null;
+	}
 
         final SharedPreferences prefs = context.getSharedPreferences(PREFERENCES_CATEGORY, 0);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -159,7 +165,7 @@ public class AppRater {
     private void rateNowClick(SharedPreferences.Editor editor, DialogInterface dialog, Context context, String packageName) {
     	setDontShow(editor);
         closeDialog(dialog);
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_PLAY_BASE_URI+packageName)));
+        context.startActivity(mIntentGooglePlay);
     }
 
     private void remindLaterClick(SharedPreferences.Editor editor, DialogInterface dialog, long firstLaunchTime) {
