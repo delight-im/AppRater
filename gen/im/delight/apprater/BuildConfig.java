@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.marcow.apprater;
+package im.delight.apprater;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

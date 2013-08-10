@@ -1,4 +1,4 @@
-package com.marcow.apprater;
+package im.delight.apprater;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -29,7 +29,7 @@ import android.text.format.DateUtils;
  * <p>
  * Minimum API level: 8 (Android 2.2)
  * 
- * @author <a href="https://github.com/marcow">Marco W.</a>
+ * @author <a href="https://github.com/delight-im">delight.im</a>
  * @version 1.1
  */
 public class AppRater {
@@ -209,7 +209,7 @@ public class AppRater {
     }
     
     @SuppressLint("NewApi")
-	private void savePreferences(SharedPreferences.Editor editor) {
+	private static void savePreferences(SharedPreferences.Editor editor) {
     	if (editor != null) {
 	    	if (Build.VERSION.SDK_INT < 9) {
 	    		editor.commit();
