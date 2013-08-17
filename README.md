@@ -42,11 +42,17 @@ AppRater appRater = new AppRater(this, "com.my.package");
 appRater.setDaysBeforePrompt(3);
 appRater.setLaunchesBeforePrompt(7);
 appRater.setPhrases(R.string.rate_title, R.string.rate_explanation, R.string.rate_now, R.string.rate_later, R.string.rate_never);
-// appRater.setPhrases("Rate this app", "This is the explanation why you should rate our app.", "Rate now", "Later", "No, thanks");
-// appRater.setTargetUri("https://play.google.com/store/apps/details?id=%1$s");
-// appRater.setPreferenceKeys("app_rater", "flag_dont_show", "launch_count", "first_launch_time");
 mAlertDialog = appRater.show();
 ```
+
+There are three additional methods which you won't need to call, usually:
+```java
+appRater.setPhrases("Rate this app", "This is the explanation why you should rate our app.", "Rate now", "Later", "No, thanks");
+appRater.setTargetUri("https://play.google.com/store/apps/details?id=%1$s");
+appRater.setPreferenceKeys("app_rater", "flag_dont_show", "launch_count", "first_launch_time");
+```
+
+The first one lets you set the phrases as Strings directly, without referencing resources. The second one lets you enter an alternative target URI if you want to redirect the user to another appstore than Google Play (e.g. Amazon Appstore). The third method lets you change the name of the preferences, which you won't need to do, usually.
 
 Be sure to check the JavaDoc for all these methods when using them. Don't forget to call ```show()``` which is the most important part.
 
