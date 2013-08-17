@@ -2,13 +2,9 @@ AppRater
 ========
 
  * Android library that lets you prompt users to rate your application
- * Users will be redirected to Google Play by default, but any other app store can be used by providing a custom URI (via ```setTargetUri(...)```)
- * This library uses English default phrases but you may provide custom phrases either as Strings or resource IDs (via ```setPhrases(...)```)
- * Users will be prompted to rate your app after at least 2 days and 5 app launches (customizable via ```setDaysBeforePrompt(...)``` and ```setLaunchesBeforePrompt(...)```)
- * You may overwrite the default preference group name and key names by calling ```setPreferenceKeys(...)``` (usually not necessary)
  * The prompting dialog will be displayed (if adequate) as soon as you call ```show()``` on your AppRater instance
  * The dialog will only be shown if at least one application is available on the user's phone to handle the Intent that is defined by the target URI
- * AlertDialog is used so that the prompt window adapts to your application's styles and themes
+ * Adapts to your application's styles and themes
  * Minimum API level: 8 (Android 2.2)
 
 Adding AppRater as a library project
