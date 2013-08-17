@@ -37,7 +37,7 @@ This is the basic usage. Make sure to provide your correct application package.
 
 You can customize the AppRater by using any of the following calls before ```show()``` (which are all optional):
 
-```
+```java
 AppRater appRater = new AppRater(this, "com.my.package");
 appRater.setDaysBeforePrompt(3);
 appRater.setLaunchesBeforePrompt(7);
