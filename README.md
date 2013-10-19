@@ -1,5 +1,4 @@
-AppRater
-========
+# AppRater
 
  * Android library that lets you prompt users to rate your application
  * The prompting dialog will be displayed (if adequate) as soon as you call ```show()``` on your AppRater instance
@@ -7,29 +6,27 @@ AppRater
  * Adapts to your application's styles and themes
  * Minimum API level: 8 (Android 2.2)
 
-Adding AppRater as a library project
-========
+# Installation
 
- 1. Download all files of this project as a ZIP and extract it to a local folder
- 2. In Eclipse, click ```File```, ```New``` and ```Other```
- 3. In section ```Android```, choose ```Android Project from Existing Source```
- 4. For ```Root Directory```, click ```Browse``` and choose the folder where you've extracted the ZIP to
- 5. Check ```Copy projects into workspace``` and click ```Finish```
- 6. In Eclipse's Package Explorer, right-click on your application's name
- 7. Choose ```Properties``` and go to section ```Android```.
- 8. In section ```Library```, click ```Add```, select ```AppRater``` and click ```OK```
- 9. Click ```Apply``` and ```OK```.
+ * Copy this Java package to your project's source folder
+ * or
+ * Create a new library project from this Java package and reference it in your apps
 
-Usage
-========
+# Usage
 
 Decide which Activity you want to appear the rating prompt in (usually your ```MainActivity.java```).
 
-At the end of ```onCreate(...)``` or ```onPause()```, add the following:
+At the end of your Activity's ```onCreate(...)``` or ```onResume()```, add the following:
 
 ```new AppRater(this, "com.my.package").show();```
 
+If you want to call the AppRater from a Fragment (e.g. at the end of `onCreateView(...)`), use the following line instead:
+
+```new AppRater(getActivity(), "com.my.package").show();```
+
 This is the basic usage. Make sure to provide your correct application package.
+
+# Customization
 
 You can customize the AppRater by using any of the following calls before ```show()``` (which are all optional):
 
@@ -52,21 +49,22 @@ The first one lets you set the phrases as Strings directly, without referencing 
 
 Be sure to check the JavaDoc for all these methods when using them. Don't forget to call ```show()``` which is the most important part.
 
-License
-=======
+In addition to that, please keep in mind that you should call `setDaysBeforePrompt(0)` and `setLaunchesBeforePrompt(0)` for debugging purposes, so that you can see the dialog right away.
+
+# License
 
 ```
- Copyright 2013 delight.im
-
-	Licensed under the Apache License, Version 2.0 (the "License");
-	you may not use this file except in compliance with the License.
-	You may obtain a copy of the License at
-
-	http://www.apache.org/licenses/LICENSE-2.0
-
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+ Copyright 2013 www.delight.im <info@delight.im>
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 ```
