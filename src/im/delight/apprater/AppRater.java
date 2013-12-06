@@ -78,6 +78,14 @@ public class AppRater {
     /**
      * Creates a new AppRater instance
      * @param context the Activity reference to use for this instance (usually the Activity you called this from)
+     */
+    public AppRater(final Context context) {
+      this(context, context.getPackageName());
+    }
+
+    /**
+     * Creates a new AppRater instance
+     * @param context the Activity reference to use for this instance (usually the Activity you called this from)
      * @param packageName your application's package name that will be used to open the ratings page
      */
     public AppRater(final Context context, final String packageName) {

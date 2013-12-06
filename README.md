@@ -18,11 +18,11 @@ Decide which Activity you want to appear the rating prompt in (usually your ```M
 
 At the end of your Activity's ```onCreate(...)``` or ```onResume()```, add the following:
 
-```new AppRater(this, "com.my.package").show();```
+```new AppRater(this).show();```
 
 If you want to call the AppRater from a Fragment (e.g. at the end of `onCreateView(...)`), use the following line instead:
 
-```new AppRater(getActivity(), "com.my.package").show();```
+```new AppRater(getActivity()).show();```
 
 This is the basic usage. Make sure to provide your correct application package.
 
@@ -31,7 +31,7 @@ This is the basic usage. Make sure to provide your correct application package.
 You can customize the AppRater by using any of the following calls before ```show()``` (which are all optional):
 
 ```java
-AppRater appRater = new AppRater(this, "com.my.package");
+AppRater appRater = new AppRater(this);
 appRater.setDaysBeforePrompt(3);
 appRater.setLaunchesBeforePrompt(7);
 appRater.setPhrases(R.string.rate_title, R.string.rate_explanation, R.string.rate_now, R.string.rate_later, R.string.rate_never);
