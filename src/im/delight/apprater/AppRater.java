@@ -268,7 +268,7 @@ public class AppRater {
     }
     
     private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog, long firstLaunchTime) {
-    	setFirstLaunchTime(editor, firstLaunchTime - DateUtils.DAY_IN_MILLIS); // remind again later (but wait at least 24 hours)
+    	setFirstLaunchTime(editor, firstLaunchTime + DateUtils.DAY_IN_MILLIS); // remind again later (but wait at least 24 hours)
     	closeDialog(dialog);
     }
     
