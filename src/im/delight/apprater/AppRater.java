@@ -214,7 +214,7 @@ public class AppRater {
         if (launch_count >= mLaunchesBeforePrompt) { // wait at least x app launches
             if (System.currentTimeMillis() >= (firstLaunchTime + (mDaysBeforePrompt * DateUtils.DAY_IN_MILLIS))) { // wait at least x days
                 try {
-                	return showDialog(mContext, editor, mPackageName, firstLaunchTime);
+                	return showDialog(mContext, editor, firstLaunchTime);
                 }
                 catch (Exception e) {
                 	return null;
@@ -241,7 +241,7 @@ public class AppRater {
     	}
     }
     
-    private void closeDialog(DialogInterface dialog) {
+    private static void closeDialog(DialogInterface dialog) {
         if (dialog != null) {
         	dialog.dismiss();
         }
@@ -277,7 +277,7 @@ public class AppRater {
         closeDialog(dialog);
     }
     
-    private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor, final String packageName, final long firstLaunchTime) {
+    private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor, final long firstLaunchTime) {
         final AlertDialog.Builder rateDialog = new AlertDialog.Builder(context);
         rateDialog.setTitle(mText_title);
         rateDialog.setMessage(mText_explanation);
