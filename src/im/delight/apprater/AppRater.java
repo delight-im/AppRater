@@ -315,34 +315,18 @@ public class AppRater {
 				buttonLaterClick(editor, dialog, firstLaunchTime);
 			}
 		});
-        if (Build.VERSION.SDK_INT < 14) {
-	        rateDialog.setPositiveButton(mText_buttonNow, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					buttonNowClick(editor, dialog, context);
-				}
-			});
-	        rateDialog.setNegativeButton(mText_buttonNever, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					buttonNeverClick(editor, dialog);
-				}
-			});
-        }
-        else {
-	        rateDialog.setPositiveButton(mText_buttonNever, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					buttonNeverClick(editor, dialog);
-				}
-			});
-	        rateDialog.setNegativeButton(mText_buttonNow, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					buttonNowClick(editor, dialog, context);
-				}
-			});
-        }
+        rateDialog.setPositiveButton(mText_buttonNow, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				buttonNowClick(editor, dialog, context);
+			}
+		});
+        rateDialog.setNegativeButton(mText_buttonNever, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				buttonNeverClick(editor, dialog);
+			}
+		});
         return rateDialog.show();
     }
 
