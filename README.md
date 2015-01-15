@@ -8,9 +8,11 @@
 
 ## Installation
 
- * Copy this Java package to your project's source folder
+ * Include one of the [JARs](JARs) in your `libs` folder
  * or
- * Create a new library project from this Java package and reference it in your apps
+ * Copy the Java package to your project's source folder
+ * or
+ * Create a new library project from this repository and reference it in your project
 
 ## Usage
 
