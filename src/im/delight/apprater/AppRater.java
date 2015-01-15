@@ -2,13 +2,13 @@ package im.delight.apprater;
 
 /**
  * Copyright 2013 www.delight.im <info@delight.im>
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,7 @@ public class AppRater {
     private static final String DEFAULT_PREFERENCE_DONT_SHOW = "flag_dont_show";
     private static final String DEFAULT_PREFERENCE_LAUNCH_COUNT = "launch_count";
     private static final String DEFAULT_PREFERENCE_FIRST_LAUNCH = "first_launch_time";
-    private static final String DEFAULT_TARGET_URI = "market://details?id=%1$s";
+    private static final String DEFAULT_TARGET_URI = "market://details?id=%s";
     private static final String DEFAULT_TEXT_TITLE = "Rate this app";
     private static final String DEFAULT_TEXT_EXPLANATION = "Has this app convinced you? We would be very happy if you could rate our application on Google Play. Thanks for your support!";
     private static final String DEFAULT_TEXT_NOW = "Rate now";
@@ -74,7 +74,7 @@ public class AppRater {
     private String mPreference_launchCount;
     private String mPreference_firstLaunch;
     private Intent mTargetIntent;
-    
+
     /**
      * Creates a new AppRater instance
      * @param context the Activity reference to use for this instance (usually the Activity you called this from)
@@ -107,33 +107,61 @@ public class AppRater {
         mPreference_launchCount = DEFAULT_PREFERENCE_LAUNCH_COUNT;
         mPreference_firstLaunch = DEFAULT_PREFERENCE_FIRST_LAUNCH;
     }
-    
-    /** Sets how many days to wait before users may be prompted */
-    public void setDaysBeforePrompt(int days) {
+
+    /**
+     * Sets how many days to wait before users may be prompted
+     *
+     * @param days the number of days to wait before showing the prompt
+     */
+    public void setDaysBeforePrompt(final int days) {
     	mDaysBeforePrompt = days;
     }
-    
-    /** Sets how often users must have launched the app (i.e. called AppRater.show()) before they may be prompted */
-    public void setLaunchesBeforePrompt(int launches) {
+
+    /**
+     * Sets how often users must have launched the app (i.e. called AppRater.show()) before they may be prompted
+     *
+     * @param launches the number of launches to wait before showing the prompt
+     */
+    public void setLaunchesBeforePrompt(final int launches) {
     	mLaunchesBeforePrompt = launches;
     }
-    
-    /** Sets the target URI string that must contain exactly one placeholder (%1$s) for the package name */
-    public void setTargetUri(String uri) {
+
+    /**
+     * Sets the target URI string that must contain exactly one placeholder (`%s`) for the package name
+     *
+     * @param uri the target URI to open when the user wants to rate the app (must include `%s`)
+     */
+    public void setTargetUri(final String uri) {
     	mTargetUri = uri;
     }
-    
-    /** Sets the given Strings to use for the prompt */
-    public void setPhrases(String title, String explanation, String buttonNow, String buttonLater, String buttonNever) {
+
+    /**
+     * Sets the given Strings to use for the prompt
+     *
+     * @param title the title for the prompt window (as a string)
+     * @param explanation the explanatory text that will be shown inside the prompt window (as a string)
+     * @param buttonNow the caption for the `Rate now` button (as a string)
+     * @param buttonLater the caption for the `Maybe later` button (as a string)
+     * @param buttonNever the caption for the `Never` button (as a string)
+     */
+    public void setPhrases(final String title, final String explanation, final String buttonNow, final String buttonLater, final String buttonNever) {
     	mText_title = title;
     	mText_explanation = explanation;
     	mText_buttonNow = buttonNow;
     	mText_buttonLater = buttonLater;
     	mText_buttonNever = buttonNever;
     }
-    
-    /** Sets the Strings referenced by the given resource IDs to use for the prompt */
-    public void setPhrases(int title, int explanation, int buttonNow, int buttonLater, int buttonNever) {
+
+    /**
+     * Sets the Strings referenced by the given resource IDs to use for the prompt
+     *
+     * @param title the title for the prompt window (as a resource ID)
+     * @param explanation the explanatory text that will be shown inside the prompt window (as a resource ID)
+     * @param buttonNow the caption for the `Rate now` button (as a resource ID)
+     * @param buttonLater the caption for the `Maybe later` button (as a resource ID)
+     * @param buttonNever the caption for the `Never` button (as a resource ID)
+     */
+    public void setPhrases(final int title, final int explanation, final int buttonNow, final int buttonLater, final int buttonNever) {
     	try {
     		mText_title = mContext.getString(title);
     	}
@@ -165,7 +193,7 @@ public class AppRater {
     		mText_buttonNever = DEFAULT_TEXT_NEVER;
     	}
     }
-    
+
     /**
      * Sets the given keys for the preferences that will be used
      * @param group the preference group file that all values of this class go in
@@ -179,10 +207,10 @@ public class AppRater {
     	mPreference_launchCount = launchCount;
     	mPreference_firstLaunch = firstLaunchTime;
     }
-    
+
     /**
      * Checks if the rating dialog should be shown to the user and displays it if needed
-     * 
+     *
      * @return the AlertDialog that has been shown or null
      */
     @SuppressLint("CommitPrefEdits")
@@ -208,9 +236,9 @@ public class AppRater {
         	firstLaunchTime = System.currentTimeMillis(); // set to current time
             editor.putLong(mPreference_firstLaunch, firstLaunchTime);
         }
-        
+
         savePreferences(editor);
-        
+
         if (launch_count >= mLaunchesBeforePrompt) { // wait at least x app launches
             if (System.currentTimeMillis() >= (firstLaunchTime + (mDaysBeforePrompt * DateUtils.DAY_IN_MILLIS))) { // wait at least x days
                 try {
@@ -228,7 +256,7 @@ public class AppRater {
         	return null;
         }
     }
-    
+
     @SuppressLint("NewApi")
 	private static void savePreferences(SharedPreferences.Editor editor) {
     	if (editor != null) {
@@ -240,43 +268,43 @@ public class AppRater {
 	    	}
     	}
     }
-    
+
     private static void closeDialog(DialogInterface dialog) {
         if (dialog != null) {
         	dialog.dismiss();
         }
     }
-    
+
     private void setDontShow(SharedPreferences.Editor editor) {
         if (editor != null) {
             editor.putBoolean(mPreference_dontShow, true);
             savePreferences(editor);
         }
     }
-    
+
     private void setFirstLaunchTime(SharedPreferences.Editor editor, long time) {
     	if (editor != null) {
     		editor.putLong(mPreference_firstLaunch, time);
     		savePreferences(editor);
     	}
     }
-    
+
     private void buttonNowClick(SharedPreferences.Editor editor, DialogInterface dialog, Context context) {
     	setDontShow(editor);
         closeDialog(dialog);
         context.startActivity(mTargetIntent);
     }
-    
+
     private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog, long firstLaunchTime) {
     	setFirstLaunchTime(editor, firstLaunchTime + DateUtils.DAY_IN_MILLIS); // remind again later (but wait at least 24 hours)
     	closeDialog(dialog);
     }
-    
+
     private void buttonNeverClick(SharedPreferences.Editor editor, DialogInterface dialog) {
     	setDontShow(editor);
         closeDialog(dialog);
     }
-    
+
     private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor, final long firstLaunchTime) {
         final AlertDialog.Builder rateDialog = new AlertDialog.Builder(context);
         rateDialog.setTitle(mText_title);
