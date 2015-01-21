@@ -4,7 +4,9 @@
  * Prompt will only be shown to users after a specified number of days and app launches
  * Adapts to your application's styles and themes
 
-![Screenshot](Screenshot.png)
+<p align="center">
+	<img src="Screenshot.png" alt="Screenshot" width="360" />
+</p>
 
 ## Installation
 
