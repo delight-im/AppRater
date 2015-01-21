@@ -208,6 +208,10 @@ public class AppRater {
     	mPreference_firstLaunch = firstLaunchTime;
     }
 
+    private void createTargetIntent() {
+    	mTargetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(mTargetUri, mPackageName)));
+    }
+
     /**
      * Checks if the rating dialog should be shown to the user and displays it if needed
      *
@@ -215,7 +219,7 @@ public class AppRater {
      */
     @SuppressLint("CommitPrefEdits")
 	public AlertDialog show() {
-    	mTargetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(mTargetUri, mPackageName)));
+    	createTargetIntent();
     	if (mContext.getPackageManager().queryIntentActivities(mTargetIntent, 0).size() <= 0) {
     		return null; // no app available to handle the intent
     	}
@@ -255,6 +259,18 @@ public class AppRater {
         else {
         	return null;
         }
+    }
+
+    /**
+     * Displays a preview of the prompt as it will be shown to users later (use as a replacement for `show()`)
+     *
+     * @return the AlertDialog that has been shown or null
+     * @deprecated you should remove any reference to this method before deploying a production version
+     */
+    @Deprecated
+    public AlertDialog demo() {
+    	createTargetIntent();
+    	return showDialog(mContext, mContext.getSharedPreferences(mPrefGroup, 0).edit(), System.currentTimeMillis());
     }
 
     @SuppressLint("NewApi")

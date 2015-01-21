@@ -28,6 +28,8 @@ If you want to call the AppRater from a Fragment (e.g. at the end of `onCreateVi
 
 This is the basic usage. Make sure to provide your correct application package.
 
+If you want to see a preview of the prompt (usually during development), replace the call to `show()` on the `AppRater` instance with a call to the `demo()` method.
+
 ## Customization
 
 You can customize the AppRater by using any of the following calls before ```show()``` (which are all optional):
