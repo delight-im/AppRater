@@ -1,7 +1,7 @@
 # AppRater
 
  * Android library that lets you prompt users to rate your application
- * The prompting dialog will be displayed (if adequate) as soon as you call ```show()``` on your AppRater instance
+ * The prompting dialog will be displayed (if adequate) as soon as you call `show()` on your AppRater instance
  * The dialog will only be shown if at least one application is available on the user's phone to handle the Intent that is defined by the target URI
  * Adapts to your application's styles and themes
  * Minimum API level: 8 (Android 2.2)
@@ -16,17 +16,21 @@
 
 ## Usage
 
-Decide which Activity you want to appear the rating prompt in (usually your ```MainActivity.java```).
+### From `Activity` instances
 
-At the end of your Activity's ```onCreate(...)``` or ```onResume()```, add the following:
+Decide which `Activity` you want to appear the rating prompt in (usually your ```MainActivity.java```).
 
-```new AppRater(this).show();```
+At the end of your `Activity`'s `onCreate(...)` or `onResume()`, add the following:
 
-If you want to call the AppRater from a Fragment (e.g. at the end of `onCreateView(...)`), use the following line instead:
+`new AppRater(this).show();`
 
-```new AppRater(getActivity()).show();```
+### From `Fragment` instances
 
-This is the basic usage. Make sure to provide your correct application package.
+If you want to call the AppRater from a `Fragment` (e.g. at the end of `onCreateView()`), use the following line instead:
+
+`new AppRater(getActivity()).show();`
+
+### Preview (usage during development)
 
 If you want to see a preview of the prompt (usually during development), replace the call to `show()` on the `AppRater` instance with a call to the `demo()` method.
 
