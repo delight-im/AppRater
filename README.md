@@ -1,10 +1,10 @@
 # AppRater
 
- * Android library that lets you prompt users to rate your application
- * The prompting dialog will be displayed (if adequate) as soon as you call `show()` on your AppRater instance
- * The dialog will only be shown if at least one application is available on the user's phone to handle the Intent that is defined by the target URI
+ * Android library that lets you prompt users to rate your application on their appstore (e.g. Google Play)
+ * Prompt will only be shown to users after a specified number of days and app launches
  * Adapts to your application's styles and themes
- * Minimum API level: 8 (Android 2.2)
+
+![Screenshot](Screenshot.png)
 
 ## Installation
 
@@ -58,6 +58,10 @@ The first one lets you set the phrases as Strings directly, without referencing 
 Be sure to check the JavaDoc for all these methods when using them. Don't forget to call ```show()``` which is the most important part.
 
 In addition to that, please keep in mind that you should call `setDaysBeforePrompt(0)` and `setLaunchesBeforePrompt(0)` for debugging purposes, so that you can see the dialog right away.
+
+## Dependencies
+
+ * Android 2.2+
 
 ## Contributing
 
