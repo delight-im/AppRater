@@ -45,7 +45,10 @@ AppRater appRater = new AppRater(this);
 appRater.setDaysBeforePrompt(3);
 appRater.setLaunchesBeforePrompt(7);
 appRater.setPhrases(R.string.rate_title, R.string.rate_explanation, R.string.rate_now, R.string.rate_later, R.string.rate_never);
-mAlertDialog = appRater.show();
+
+appRater.show();
+// or
+// AlertDialog myDialog = appRater.show();
 ```
 
 There are three additional methods which you won't need to call, usually:
