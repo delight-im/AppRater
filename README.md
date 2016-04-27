@@ -5,7 +5,7 @@
  * Adapts to your application's styles and themes
 
 <p align="center">
-	<img src="Screenshot.png" alt="Screenshot" width="360" />
+    <img src="Screenshot.png" alt="Screenshot" width="360" />
 </p>
 
 ## Installation
