@@ -42,7 +42,6 @@ You can customize the AppRater by using any of the following calls before ```sho
 AppRater appRater = new AppRater(this);
 appRater.setDaysBeforePrompt(3);
 appRater.setLaunchesBeforePrompt(7);
-appRater.setPhrases(R.string.rate_title, R.string.rate_explanation, R.string.rate_now, R.string.rate_later, R.string.rate_never);
 
 appRater.show();
 // or
@@ -52,6 +51,9 @@ appRater.show();
 There are three additional methods which you won't need to call, usually:
 ```java
 appRater.setPhrases("Rate this app", "This is the explanation why you should rate our app.", "Rate now", "Later", "No, thanks");
+// or
+appRater.setPhrases(R.string.rate_title, R.string.rate_explanation, R.string.rate_now, R.string.rate_later, R.string.rate_never);
+
 appRater.setTargetUri("https://play.google.com/store/apps/details?id=%1$s");
 appRater.setPreferenceKeys("app_rater", "flag_dont_show", "launch_count", "first_launch_time");
 ```
