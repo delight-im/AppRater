@@ -59,8 +59,8 @@ public class AppRater {
     private static final String DEFAULT_TEXT_NEVER = "No, thanks";
     private static final int DEFAULT_DAYS_BEFORE_PROMPT = 2;
     private static final int DEFAULT_LAUNCHES_BEFORE_PROMPT = 5;
-    private Context mContext;
-    private String mPackageName;
+    private final Context mContext;
+    private final String mPackageName;
     private int mDaysBeforePrompt;
     private int mLaunchesBeforePrompt;
     private String mTargetUri;
