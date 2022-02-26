@@ -18,6 +18,7 @@ package im.delight.apprater;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -220,9 +221,6 @@ public class AppRater {
     @SuppressLint("CommitPrefEdits")
 	public AlertDialog show() {
     	createTargetIntent();
-    	if (mContext.getPackageManager().queryIntentActivities(mTargetIntent, 0).size() <= 0) {
-    		return null; // no app available to handle the intent
-    	}
 
         final SharedPreferences prefs = mContext.getSharedPreferences(mPrefGroup, 0);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -308,7 +306,10 @@ public class AppRater {
     private void buttonNowClick(SharedPreferences.Editor editor, DialogInterface dialog, Context context) {
     	setDontShow(editor);
         closeDialog(dialog);
-        context.startActivity(mTargetIntent);
+		try {
+			context.startActivity(mTargetIntent);
+		}
+		catch (ActivityNotFoundException ignored) {}
     }
 
     private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog, long firstLaunchTime) {
