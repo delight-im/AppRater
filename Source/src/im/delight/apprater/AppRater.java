@@ -244,7 +244,7 @@ public class AppRater {
         if (launch_count >= mLaunchesBeforePrompt) { // wait at least x app launches
             if (System.currentTimeMillis() >= (firstLaunchTime + (mDaysBeforePrompt * DateUtils.DAY_IN_MILLIS))) { // wait at least x days
                 try {
-                	return showDialog(mContext, editor, firstLaunchTime);
+                	return showDialog(mContext, editor);
                 }
                 catch (Exception e) {
                 	return null;
@@ -268,7 +268,7 @@ public class AppRater {
     @Deprecated
     public AlertDialog demo() {
     	createTargetIntent();
-    	return showDialog(mContext, mContext.getSharedPreferences(mPrefGroup, 0).edit(), System.currentTimeMillis());
+    	return showDialog(mContext, mContext.getSharedPreferences(mPrefGroup, 0).edit());
     }
 
     @SuppressLint("NewApi")
@@ -312,8 +312,8 @@ public class AppRater {
 		catch (ActivityNotFoundException ignored) {}
     }
 
-    private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog, long firstLaunchTime) {
-    	setFirstLaunchTime(editor, firstLaunchTime + DateUtils.DAY_IN_MILLIS); // remind again later (but wait at least 24 hours)
+    private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog) {
+    	setFirstLaunchTime(editor, System.currentTimeMillis());
     	closeDialog(dialog);
     }
 
@@ -322,14 +322,14 @@ public class AppRater {
         closeDialog(dialog);
     }
 
-    private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor, final long firstLaunchTime) {
+    private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor) {
         final AlertDialog.Builder rateDialog = new AlertDialog.Builder(context);
         rateDialog.setTitle(mText_title);
         rateDialog.setMessage(mText_explanation);
         rateDialog.setNeutralButton(mText_buttonLater, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				buttonLaterClick(editor, dialog, firstLaunchTime);
+				buttonLaterClick(editor, dialog);
 			}
 		});
         rateDialog.setPositiveButton(mText_buttonNow, new DialogInterface.OnClickListener() {
