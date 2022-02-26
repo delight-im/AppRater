@@ -48,303 +48,303 @@ import android.text.format.DateUtils;
  */
 public class AppRater {
 
-    private static final String DEFAULT_PREF_GROUP = "app_rater";
-    private static final String DEFAULT_PREFERENCE_DONT_SHOW = "flag_dont_show";
-    private static final String DEFAULT_PREFERENCE_LAUNCH_COUNT = "launch_count";
-    private static final String DEFAULT_PREFERENCE_FIRST_LAUNCH = "first_launch_time";
-    private static final String DEFAULT_TARGET_URI = "market://details?id=%s";
-    private static final String DEFAULT_TEXT_TITLE = "Rate this app";
-    private static final String DEFAULT_TEXT_EXPLANATION = "Has this app convinced you? We would be very happy if you could rate our application on Google Play. Thanks for your support!";
-    private static final String DEFAULT_TEXT_NOW = "Rate now";
-    private static final String DEFAULT_TEXT_LATER = "Later";
-    private static final String DEFAULT_TEXT_NEVER = "No, thanks";
-    private static final int DEFAULT_DAYS_BEFORE_PROMPT = 2;
-    private static final int DEFAULT_LAUNCHES_BEFORE_PROMPT = 5;
-    private final Context mContext;
-    private final String mPackageName;
-    private int mDaysBeforePrompt;
-    private int mLaunchesBeforePrompt;
-    private String mTargetUri;
-    private String mText_title;
-    private String mText_explanation;
-    private String mText_buttonNow;
-    private String mText_buttonLater;
-    private String mText_buttonNever;
-    private String mPrefGroup;
-    private String mPreference_dontShow;
-    private String mPreference_launchCount;
-    private String mPreference_firstLaunch;
-    private Intent mTargetIntent;
+	private static final String DEFAULT_PREF_GROUP = "app_rater";
+	private static final String DEFAULT_PREFERENCE_DONT_SHOW = "flag_dont_show";
+	private static final String DEFAULT_PREFERENCE_LAUNCH_COUNT = "launch_count";
+	private static final String DEFAULT_PREFERENCE_FIRST_LAUNCH = "first_launch_time";
+	private static final String DEFAULT_TARGET_URI = "market://details?id=%s";
+	private static final String DEFAULT_TEXT_TITLE = "Rate this app";
+	private static final String DEFAULT_TEXT_EXPLANATION = "Has this app convinced you? We would be very happy if you could rate our application on Google Play. Thanks for your support!";
+	private static final String DEFAULT_TEXT_NOW = "Rate now";
+	private static final String DEFAULT_TEXT_LATER = "Later";
+	private static final String DEFAULT_TEXT_NEVER = "No, thanks";
+	private static final int DEFAULT_DAYS_BEFORE_PROMPT = 2;
+	private static final int DEFAULT_LAUNCHES_BEFORE_PROMPT = 5;
+	private final Context mContext;
+	private final String mPackageName;
+	private int mDaysBeforePrompt;
+	private int mLaunchesBeforePrompt;
+	private String mTargetUri;
+	private String mText_title;
+	private String mText_explanation;
+	private String mText_buttonNow;
+	private String mText_buttonLater;
+	private String mText_buttonNever;
+	private String mPrefGroup;
+	private String mPreference_dontShow;
+	private String mPreference_launchCount;
+	private String mPreference_firstLaunch;
+	private Intent mTargetIntent;
 
-    /**
-     * Creates a new AppRater instance
-     * @param context the Activity reference to use for this instance (usually the Activity you called this from)
-     */
-    public AppRater(final Context context) {
-      this(context, context.getPackageName());
-    }
+	/**
+	 * Creates a new AppRater instance
+	 * @param context the Activity reference to use for this instance (usually the Activity you called this from)
+	 */
+	public AppRater(final Context context) {
+		this(context, context.getPackageName());
+	}
 
-    /**
-     * Creates a new AppRater instance
-     * @param context the Activity reference to use for this instance (usually the Activity you called this from)
-     * @param packageName your application's package name that will be used to open the ratings page
-     */
-    public AppRater(final Context context, final String packageName) {
-    	if (context == null) {
-    		throw new RuntimeException("context may not be null");
-    	}
-    	mContext = context;
-    	mPackageName = packageName;
-    	mDaysBeforePrompt = DEFAULT_DAYS_BEFORE_PROMPT;
-    	mLaunchesBeforePrompt = DEFAULT_LAUNCHES_BEFORE_PROMPT;
-    	mTargetUri = DEFAULT_TARGET_URI;
-    	mText_title = DEFAULT_TEXT_TITLE;
-    	mText_explanation = DEFAULT_TEXT_EXPLANATION;
-    	mText_buttonNow = DEFAULT_TEXT_NOW;
-    	mText_buttonLater = DEFAULT_TEXT_LATER;
-    	mText_buttonNever = DEFAULT_TEXT_NEVER;
-        mPrefGroup = DEFAULT_PREF_GROUP;
-        mPreference_dontShow = DEFAULT_PREFERENCE_DONT_SHOW;
-        mPreference_launchCount = DEFAULT_PREFERENCE_LAUNCH_COUNT;
-        mPreference_firstLaunch = DEFAULT_PREFERENCE_FIRST_LAUNCH;
-    }
+	/**
+	 * Creates a new AppRater instance
+	 * @param context the Activity reference to use for this instance (usually the Activity you called this from)
+	 * @param packageName your application's package name that will be used to open the ratings page
+	 */
+	public AppRater(final Context context, final String packageName) {
+		if (context == null) {
+			throw new RuntimeException("context may not be null");
+		}
+		mContext = context;
+		mPackageName = packageName;
+		mDaysBeforePrompt = DEFAULT_DAYS_BEFORE_PROMPT;
+		mLaunchesBeforePrompt = DEFAULT_LAUNCHES_BEFORE_PROMPT;
+		mTargetUri = DEFAULT_TARGET_URI;
+		mText_title = DEFAULT_TEXT_TITLE;
+		mText_explanation = DEFAULT_TEXT_EXPLANATION;
+		mText_buttonNow = DEFAULT_TEXT_NOW;
+		mText_buttonLater = DEFAULT_TEXT_LATER;
+		mText_buttonNever = DEFAULT_TEXT_NEVER;
+		mPrefGroup = DEFAULT_PREF_GROUP;
+		mPreference_dontShow = DEFAULT_PREFERENCE_DONT_SHOW;
+		mPreference_launchCount = DEFAULT_PREFERENCE_LAUNCH_COUNT;
+		mPreference_firstLaunch = DEFAULT_PREFERENCE_FIRST_LAUNCH;
+	}
 
-    /**
-     * Sets how many days to wait before users may be prompted
-     *
-     * @param days the number of days to wait before showing the prompt
-     */
-    public void setDaysBeforePrompt(final int days) {
-    	mDaysBeforePrompt = days;
-    }
+	/**
+	 * Sets how many days to wait before users may be prompted
+	 *
+	 * @param days the number of days to wait before showing the prompt
+	 */
+	public void setDaysBeforePrompt(final int days) {
+		mDaysBeforePrompt = days;
+	}
 
-    /**
-     * Sets how often users must have launched the app (i.e. called AppRater.show()) before they may be prompted
-     *
-     * @param launches the number of launches to wait before showing the prompt
-     */
-    public void setLaunchesBeforePrompt(final int launches) {
-    	mLaunchesBeforePrompt = launches;
-    }
+	/**
+	 * Sets how often users must have launched the app (i.e. called AppRater.show()) before they may be prompted
+	 *
+	 * @param launches the number of launches to wait before showing the prompt
+	 */
+	public void setLaunchesBeforePrompt(final int launches) {
+		mLaunchesBeforePrompt = launches;
+	}
 
-    /**
-     * Sets the target URI string that must contain exactly one placeholder (`%s`) for the package name
-     *
-     * @param uri the target URI to open when the user wants to rate the app (must include `%s`)
-     */
-    public void setTargetUri(final String uri) {
-    	mTargetUri = uri;
-    }
+	/**
+	 * Sets the target URI string that must contain exactly one placeholder (`%s`) for the package name
+	 *
+	 * @param uri the target URI to open when the user wants to rate the app (must include `%s`)
+	 */
+	public void setTargetUri(final String uri) {
+		mTargetUri = uri;
+	}
 
-    /**
-     * Sets the given Strings to use for the prompt
-     *
-     * @param title the title for the prompt window (as a string)
-     * @param explanation the explanatory text that will be shown inside the prompt window (as a string)
-     * @param buttonNow the caption for the `Rate now` button (as a string)
-     * @param buttonLater the caption for the `Maybe later` button (as a string)
-     * @param buttonNever the caption for the `Never` button (as a string)
-     */
-    public void setPhrases(final String title, final String explanation, final String buttonNow, final String buttonLater, final String buttonNever) {
-    	mText_title = title;
-    	mText_explanation = explanation;
-    	mText_buttonNow = buttonNow;
-    	mText_buttonLater = buttonLater;
-    	mText_buttonNever = buttonNever;
-    }
+	/**
+	 * Sets the given Strings to use for the prompt
+	 *
+	 * @param title the title for the prompt window (as a string)
+	 * @param explanation the explanatory text that will be shown inside the prompt window (as a string)
+	 * @param buttonNow the caption for the `Rate now` button (as a string)
+	 * @param buttonLater the caption for the `Maybe later` button (as a string)
+	 * @param buttonNever the caption for the `Never` button (as a string)
+	 */
+	public void setPhrases(final String title, final String explanation, final String buttonNow, final String buttonLater, final String buttonNever) {
+		mText_title = title;
+		mText_explanation = explanation;
+		mText_buttonNow = buttonNow;
+		mText_buttonLater = buttonLater;
+		mText_buttonNever = buttonNever;
+	}
 
-    /**
-     * Sets the Strings referenced by the given resource IDs to use for the prompt
-     *
-     * @param title the title for the prompt window (as a resource ID)
-     * @param explanation the explanatory text that will be shown inside the prompt window (as a resource ID)
-     * @param buttonNow the caption for the `Rate now` button (as a resource ID)
-     * @param buttonLater the caption for the `Maybe later` button (as a resource ID)
-     * @param buttonNever the caption for the `Never` button (as a resource ID)
-     */
-    public void setPhrases(final int title, final int explanation, final int buttonNow, final int buttonLater, final int buttonNever) {
-    	try {
-    		mText_title = mContext.getString(title);
-    	}
-    	catch (Exception e) {
-    		mText_title = DEFAULT_TEXT_TITLE;
-    	}
-    	try {
-    		mText_explanation = mContext.getString(explanation);
-    	}
-    	catch (Exception e) {
-    		mText_explanation = DEFAULT_TEXT_EXPLANATION;
-    	}
-    	try {
-    		mText_buttonNow = mContext.getString(buttonNow);
-    	}
-    	catch (Exception e) {
-    		mText_buttonNow = DEFAULT_TEXT_NOW;
-    	}
-    	try {
-    		mText_buttonLater = mContext.getString(buttonLater);
-    	}
-    	catch (Exception e) {
-    		mText_buttonLater = DEFAULT_TEXT_LATER;
-    	}
-    	try {
-    		mText_buttonNever = mContext.getString(buttonNever);
-    	}
-    	catch (Exception e) {
-    		mText_buttonNever = DEFAULT_TEXT_NEVER;
-    	}
-    }
+	/**
+	 * Sets the Strings referenced by the given resource IDs to use for the prompt
+	 *
+	 * @param title the title for the prompt window (as a resource ID)
+	 * @param explanation the explanatory text that will be shown inside the prompt window (as a resource ID)
+	 * @param buttonNow the caption for the `Rate now` button (as a resource ID)
+	 * @param buttonLater the caption for the `Maybe later` button (as a resource ID)
+	 * @param buttonNever the caption for the `Never` button (as a resource ID)
+	 */
+	public void setPhrases(final int title, final int explanation, final int buttonNow, final int buttonLater, final int buttonNever) {
+		try {
+			mText_title = mContext.getString(title);
+		}
+		catch (Exception e) {
+			mText_title = DEFAULT_TEXT_TITLE;
+		}
+		try {
+			mText_explanation = mContext.getString(explanation);
+		}
+		catch (Exception e) {
+			mText_explanation = DEFAULT_TEXT_EXPLANATION;
+		}
+		try {
+			mText_buttonNow = mContext.getString(buttonNow);
+		}
+		catch (Exception e) {
+			mText_buttonNow = DEFAULT_TEXT_NOW;
+		}
+		try {
+			mText_buttonLater = mContext.getString(buttonLater);
+		}
+		catch (Exception e) {
+			mText_buttonLater = DEFAULT_TEXT_LATER;
+		}
+		try {
+			mText_buttonNever = mContext.getString(buttonNever);
+		}
+		catch (Exception e) {
+			mText_buttonNever = DEFAULT_TEXT_NEVER;
+		}
+	}
 
-    /**
-     * Sets the given keys for the preferences that will be used
-     * @param group the preference group file that all values of this class go in
-     * @param dontShow the preference name for the dont-show flag
-     * @param launchCount the preference name for the launch counter
-     * @param firstLaunchTime the preference name for the first launch time value
-     */
-    public void setPreferenceKeys(String group, String dontShow, String launchCount, String firstLaunchTime) {
-    	mPrefGroup = group;
-    	mPreference_dontShow = dontShow;
-    	mPreference_launchCount = launchCount;
-    	mPreference_firstLaunch = firstLaunchTime;
-    }
+	/**
+	 * Sets the given keys for the preferences that will be used
+	 * @param group the preference group file that all values of this class go in
+	 * @param dontShow the preference name for the dont-show flag
+	 * @param launchCount the preference name for the launch counter
+	 * @param firstLaunchTime the preference name for the first launch time value
+	 */
+	public void setPreferenceKeys(String group, String dontShow, String launchCount, String firstLaunchTime) {
+		mPrefGroup = group;
+		mPreference_dontShow = dontShow;
+		mPreference_launchCount = launchCount;
+		mPreference_firstLaunch = firstLaunchTime;
+	}
 
-    private void createTargetIntent() {
-    	mTargetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(mTargetUri, mPackageName)));
-    }
+	private void createTargetIntent() {
+		mTargetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(mTargetUri, mPackageName)));
+	}
 
-    /**
-     * Checks if the rating dialog should be shown to the user and displays it if needed
-     *
-     * @return the AlertDialog that has been shown or null
-     */
-    @SuppressLint("CommitPrefEdits")
+	/**
+	 * Checks if the rating dialog should be shown to the user and displays it if needed
+	 *
+	 * @return the AlertDialog that has been shown or null
+	 */
+	@SuppressLint("CommitPrefEdits")
 	public AlertDialog show() {
-    	createTargetIntent();
+		createTargetIntent();
 
-        final SharedPreferences prefs = mContext.getSharedPreferences(mPrefGroup, 0);
-        final SharedPreferences.Editor editor = prefs.edit();
+		final SharedPreferences prefs = mContext.getSharedPreferences(mPrefGroup, 0);
+		final SharedPreferences.Editor editor = prefs.edit();
 
-        if (prefs.getBoolean(mPreference_dontShow, false)) { // if user opted not to rate the app
-        	return null; // do not show anything
-        }
+		if (prefs.getBoolean(mPreference_dontShow, false)) { // if user opted not to rate the app
+			return null; // do not show anything
+		}
 
-        long launch_count = prefs.getLong(mPreference_launchCount, 0); // get launch counter
-        launch_count++; // increase number of launches by one
-        editor.putLong(mPreference_launchCount, launch_count); // write new counter back to preference
+		long launch_count = prefs.getLong(mPreference_launchCount, 0); // get launch counter
+		launch_count++; // increase number of launches by one
+		editor.putLong(mPreference_launchCount, launch_count); // write new counter back to preference
 
-        long firstLaunchTime = prefs.getLong(mPreference_firstLaunch, 0); // get date of first launch
-        if (firstLaunchTime == 0) { // if not set yet
-        	firstLaunchTime = System.currentTimeMillis(); // set to current time
-            editor.putLong(mPreference_firstLaunch, firstLaunchTime);
-        }
+		long firstLaunchTime = prefs.getLong(mPreference_firstLaunch, 0); // get date of first launch
+		if (firstLaunchTime == 0) { // if not set yet
+			firstLaunchTime = System.currentTimeMillis(); // set to current time
+			editor.putLong(mPreference_firstLaunch, firstLaunchTime);
+		}
 
-        savePreferences(editor);
+		savePreferences(editor);
 
-        if (launch_count >= mLaunchesBeforePrompt) { // wait at least x app launches
-            if (System.currentTimeMillis() >= (firstLaunchTime + (mDaysBeforePrompt * DateUtils.DAY_IN_MILLIS))) { // wait at least x days
-                try {
-                	return showDialog(mContext, editor);
-                }
-                catch (Exception e) {
-                	return null;
-                }
-            }
-            else {
-            	return null;
-            }
-        }
-        else {
-        	return null;
-        }
-    }
+		if (launch_count >= mLaunchesBeforePrompt) { // wait at least x app launches
+			if (System.currentTimeMillis() >= (firstLaunchTime + (mDaysBeforePrompt * DateUtils.DAY_IN_MILLIS))) { // wait at least x days
+				try {
+					return showDialog(mContext, editor);
+				}
+				catch (Exception e) {
+					return null;
+				}
+			}
+			else {
+				return null;
+			}
+		}
+		else {
+			return null;
+		}
+	}
 
-    /**
-     * Displays a preview of the prompt as it will be shown to users later (use as a replacement for `show()`)
-     *
-     * @return the AlertDialog that has been shown or null
-     * @deprecated you should remove any reference to this method before deploying a production version
-     */
-    @Deprecated
-    public AlertDialog demo() {
-    	createTargetIntent();
-    	return showDialog(mContext, mContext.getSharedPreferences(mPrefGroup, 0).edit());
-    }
+	/**
+	 * Displays a preview of the prompt as it will be shown to users later (use as a replacement for `show()`)
+	 *
+	 * @return the AlertDialog that has been shown or null
+	 * @deprecated you should remove any reference to this method before deploying a production version
+	 */
+	@Deprecated
+	public AlertDialog demo() {
+		createTargetIntent();
+		return showDialog(mContext, mContext.getSharedPreferences(mPrefGroup, 0).edit());
+	}
 
-    @SuppressLint("NewApi")
+	@SuppressLint("NewApi")
 	private static void savePreferences(SharedPreferences.Editor editor) {
-    	if (editor != null) {
+		if (editor != null) {
 	    	if (Build.VERSION.SDK_INT < 9) {
 	    		editor.commit();
 	    	}
 	    	else {
 	    		editor.apply();
 	    	}
-    	}
-    }
+		}
+	}
 
-    private static void closeDialog(DialogInterface dialog) {
-        if (dialog != null) {
-        	dialog.dismiss();
-        }
-    }
+	private static void closeDialog(DialogInterface dialog) {
+		if (dialog != null) {
+			dialog.dismiss();
+		}
+	}
 
-    private void setDontShow(SharedPreferences.Editor editor) {
-        if (editor != null) {
-            editor.putBoolean(mPreference_dontShow, true);
-            savePreferences(editor);
-        }
-    }
+	private void setDontShow(SharedPreferences.Editor editor) {
+		if (editor != null) {
+			editor.putBoolean(mPreference_dontShow, true);
+			savePreferences(editor);
+		}
+	}
 
-    private void setFirstLaunchTime(SharedPreferences.Editor editor, long time) {
-    	if (editor != null) {
-    		editor.putLong(mPreference_firstLaunch, time);
-    		savePreferences(editor);
-    	}
-    }
+	private void setFirstLaunchTime(SharedPreferences.Editor editor, long time) {
+		if (editor != null) {
+			editor.putLong(mPreference_firstLaunch, time);
+			savePreferences(editor);
+		}
+	}
 
-    private void buttonNowClick(SharedPreferences.Editor editor, DialogInterface dialog, Context context) {
-    	setDontShow(editor);
-        closeDialog(dialog);
+	private void buttonNowClick(SharedPreferences.Editor editor, DialogInterface dialog, Context context) {
+		setDontShow(editor);
+		closeDialog(dialog);
 		try {
 			context.startActivity(mTargetIntent);
 		}
 		catch (ActivityNotFoundException ignored) {}
-    }
+	}
 
-    private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog) {
-    	setFirstLaunchTime(editor, System.currentTimeMillis());
-    	closeDialog(dialog);
-    }
+	private void buttonLaterClick(SharedPreferences.Editor editor, DialogInterface dialog) {
+		setFirstLaunchTime(editor, System.currentTimeMillis());
+		closeDialog(dialog);
+	}
 
-    private void buttonNeverClick(SharedPreferences.Editor editor, DialogInterface dialog) {
-    	setDontShow(editor);
-        closeDialog(dialog);
-    }
+	private void buttonNeverClick(SharedPreferences.Editor editor, DialogInterface dialog) {
+		setDontShow(editor);
+		closeDialog(dialog);
+	}
 
-    private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor) {
-        final AlertDialog.Builder rateDialog = new AlertDialog.Builder(context);
-        rateDialog.setTitle(mText_title);
-        rateDialog.setMessage(mText_explanation);
-        rateDialog.setNeutralButton(mText_buttonLater, new DialogInterface.OnClickListener() {
+	private AlertDialog showDialog(final Context context, final SharedPreferences.Editor editor) {
+		final AlertDialog.Builder rateDialog = new AlertDialog.Builder(context);
+		rateDialog.setTitle(mText_title);
+		rateDialog.setMessage(mText_explanation);
+		rateDialog.setNeutralButton(mText_buttonLater, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				buttonLaterClick(editor, dialog);
 			}
 		});
-        rateDialog.setPositiveButton(mText_buttonNow, new DialogInterface.OnClickListener() {
+		rateDialog.setPositiveButton(mText_buttonNow, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				buttonNowClick(editor, dialog, context);
 			}
 		});
-        rateDialog.setNegativeButton(mText_buttonNever, new DialogInterface.OnClickListener() {
+		rateDialog.setNegativeButton(mText_buttonNever, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				buttonNeverClick(editor, dialog);
 			}
 		});
-        return rateDialog.show();
-    }
+		return rateDialog.show();
+	}
 
 }
